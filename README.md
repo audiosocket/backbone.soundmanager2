@@ -69,11 +69,11 @@ Likewise, for a view referring to a `playable` model:
 ```
 class App.View.Track extends Backbone.View
   initialize: ->
-    @model.bind "paused",   @paused
-    @model.bind "played",   @played
-    @model.bind "resumed",  @played
-    @model.bind "stopped",  @stopped
-    @model.bind "finished", @finished
+    @model.bind "player:paused",   @paused
+    @model.bind "player:played",   @played
+    @model.bind "player:resumed",  @played
+    @model.bind "player:stopped",  @stopped
+    @model.bind "player:finished", @finished
 ```
 
 backbone.modelizer
