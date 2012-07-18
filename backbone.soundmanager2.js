@@ -113,7 +113,7 @@
           autoPlay: false,
           id: playable.id,
           url: url,
-          volume: _this.volume,
+          volume: Math.round(_this.volume * 100),
           onfinish: function() {
             return _this.trigger("finished", _this.sound);
           },

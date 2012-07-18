@@ -138,8 +138,6 @@ class Backbone.SoundManager2
   #   
   #   track = new Track();
   #   player.load track
-  #
-  # Returns SoundManager2 sound.
 
   load: (playable) ->
     # No need to load the same playable track
@@ -168,7 +166,7 @@ class Backbone.SoundManager2
                              # manually below..
         id           : playable.id
         url          : url
-        volume       : @volume
+        volume       : Math.round @volume*100
         onfinish     : => @trigger "finished",    @sound
         onplay       : => @trigger "played",      @sound
         onpause      : => @trigger "paused",      @sound
