@@ -10,7 +10,6 @@
 
     function SoundManager2(bus) {
       this.bus = bus;
-      this.volume = 100;
       if (this.bus != null) {
         this.bind("all", function() {
           var args, event, _ref;
@@ -47,7 +46,7 @@
       s = this.sound;
       vol = this.volume;
       fnc = function() {
-        vol -= 2;
+        vol -= 0.02;
         s.setVolume(vol);
         if (vol > 0) {
           return _.delay(fnc, 10);
@@ -133,15 +132,17 @@
       });
     };
 
+    SoundManager2.prototype.volume = 1;
+
     SoundManager2.prototype.setVolume = function(volume) {
       if (this.sound == null) {
         return;
       }
-      if (volume > 100 || volume < 0) {
+      if (volume > 1 || volume < 0) {
         return;
       }
       this.volume = volume;
-      return this.sound.setVolume(this.volume);
+      return this.sound.setVolume(Math.round(this.volume * 100));
     };
 
     SoundManager2.prototype.setPosition = function(position) {

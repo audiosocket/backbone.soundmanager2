@@ -22,8 +22,6 @@ class Backbone.SoundManager2
   # Returns self.
 
   constructor: (@bus) ->
-    @volume = 100
-    
     if @bus?
       @bind "all", (event, args...) ->
         @bus.trigger "player:#{event}", args...
@@ -62,7 +60,7 @@ class Backbone.SoundManager2
     vol = @volume
 
     fnc = =>
-      vol -= 2
+      vol -= 0.02
       s.setVolume vol
       if vol > 0
         _.delay fnc, 10
@@ -175,38 +173,42 @@ class Backbone.SoundManager2
       @trigger "loaded"
       @sound.play()
 
+  # Initial volume
   
-  # Set sound to be a particular volume, accepts values 0-100
+  volume: 1
+  
+  # Set sound to be a particular volume, accepts values 
+  # between 0. and 1.
   #
-  # volume - an integer between 0-100
+  # volume - a float between 0 and 1.
   # 
   # Examples
   #   
   #   player.sound.volume # => 80
-  #   player.setVolume 100 track
+  #   player.setVolume 1
   #   player.sound.volume # => 100
   #
   # Returns SoundManager2 sound.
 
   setVolume: (volume) ->
     return unless @sound?
-    return if volume > 100 || volume < 0
+    return if volume > 1 || volume < 0
 
     @volume = volume
-    @sound.setVolume @volume
+    @sound.setVolume Math.round(@volume * 100)
 
 
 
   # Move to a specific position in the current sound. `position` is a
   # percentage, expressed as a number between 0 and 1.
   #
-  # position - an float between 0 and 1.
+  # position - a float between 0 and 1.
   # 
   # Examples
   #   
   #   # for a track with a duration of 5000 milliseconds
   #   player.sound.position # => 1000
-  #   player.setPosition 50
+  #   player.setPosition 0.5
   #   player.sound.position # => 2500
   #
   # Returns SoundManager2 sound.
