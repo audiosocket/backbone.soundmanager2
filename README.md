@@ -37,15 +37,15 @@ player view:
 ```
 class App.View.Player extends Backbone.View
   initialize: ->
-    App.player.bind "released", @clear
-    App.player.bind "loaded",   @loaded
-    App.player.bind "loading",  @loading
-    App.player.bind "paused",   @paused
-    App.player.bind "played",   @played
-    App.player.bind "playing",  @updatePosition
-    App.player.bind "resumed",  @played
-    App.player.bind "stopped",  @stopped
-    App.player.bind "finished", @finished
+    App.player.on "released", @clear
+    App.player.on "loaded",   @loaded
+    App.player.on "loading",  @loading
+    App.player.on "paused",   @paused
+    App.player.on "played",   @played
+    App.player.on "playing",  @updatePosition
+    App.player.on "resumed",  @played
+    App.player.on "stopped",  @stopped
+    App.player.on "finished", @finished
 
   updatePosition: (sound) =>
     return unless sound?
@@ -69,11 +69,11 @@ Likewise, for a view referring to a `playable` model:
 ```
 class App.View.Track extends Backbone.View
   initialize: ->
-    @model.bind "player:paused",   @paused
-    @model.bind "player:played",   @played
-    @model.bind "player:resumed",  @played
-    @model.bind "player:stopped",  @stopped
-    @model.bind "player:finished", @finished
+    @model.on "player:paused",   @paused
+    @model.on "player:played",   @played
+    @model.on "player:resumed",  @played
+    @model.on "player:stopped",  @stopped
+    @model.on "player:finished", @finished
 ```
 
 backbone.modelizer

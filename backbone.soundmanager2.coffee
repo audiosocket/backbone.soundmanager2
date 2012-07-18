@@ -1,3 +1,8 @@
+if require?
+  Backbone = require "backbone"
+else
+  Backbone = window.Backbone
+
 # A player model for use with SoundManager2 API.  Requires soundmanager2 (duh).
 
 class Backbone.SoundManager2
@@ -12,7 +17,7 @@ class Backbone.SoundManager2
   # Examples
   #   
   #   track = new Track()
-  #   track.bind "player:heyo", myFunction
+  #   track.on "player:heyo", myFunction
   # 
   #   player = new Player()
   #   player.playable = track
@@ -23,13 +28,15 @@ class Backbone.SoundManager2
 
   constructor: (@bus) ->
     if @bus?
-      @bind "all", (event, args...) ->
+      @on "all", (event, args...) ->
         @bus.trigger "player:#{event}", args...
 
-    @bind "all", (event, args...) ->
+    @on "all", (event, args...) ->
       return unless @playable?.trigger?
 
       @playable.trigger "player:#{event}", args...
+
+    this
 
 
   # Release the current sound, clear the current playable, and trigger
