@@ -53,9 +53,9 @@
       var fnc, vol,
         _this = this;
       s = this.sound;
-      vol = this.volume;
+      vol = this.volume * 100;
       fnc = function() {
-        vol -= 0.02;
+        vol -= 2;
         s.setVolume(vol);
         if (vol > 0) {
           return _.delay(fnc, 10);

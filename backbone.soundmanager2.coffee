@@ -64,10 +64,10 @@ class Backbone.SoundManager2
 
   fadeout: (s) ->
     s = @sound
-    vol = @volume
+    vol = @volume * 100
 
     fnc = =>
-      vol -= 0.02
+      vol -= 2
       s.setVolume vol
       if vol > 0
         _.delay fnc, 10
