@@ -79,8 +79,8 @@ class App.View.Track extends Backbone.View
 backbone.modelizer
 ------------------
 
-If `backbone.modelizer` is installed, `playable.retain()` will be called when `playable` is
-being played and `playable.release()` will be called when `playable` is being released.
+If [backbone.modelizer](https://github.com/audiosocket/backbone.modelizer) is installed, `playable.retain()` 
+will be called when `playable` is being played and `playable.release()` will be called when `playable` is being released.
 
 Using
 =====
