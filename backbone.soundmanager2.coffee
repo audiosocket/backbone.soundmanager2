@@ -49,7 +49,7 @@ class Backbone.SoundManager2
   # Returns newly changed self.
 
   release: ->
-    @fadeout(@sound) if @sound
+    @fadeout() if @sound
 
     @sound = null
 
@@ -58,11 +58,17 @@ class Backbone.SoundManager2
 
     @trigger "released"
 
-
+    this
 
   # Fade out the current sound's volume to 0 and destroy it.
+  #
+  # Examples
+  #    
+  #   player.fadeout() # => volume smoothly goes to zero.
+  #
+  # Returns self
 
-  fadeout: (s) ->
+  fadeout: ->
     s = @sound
     vol = @volume * 100
 
@@ -76,6 +82,7 @@ class Backbone.SoundManager2
 
     fnc()
 
+    this
 
 
   # Determine if the state of the player is `paused`, or `playing`.
@@ -201,6 +208,7 @@ class Backbone.SoundManager2
 
     @volume = volume
     @sound.setVolume Math.round(@volume * 100)
+    @sound
 
 
 
@@ -222,7 +230,23 @@ class Backbone.SoundManager2
     return unless @sound?
     return if @sound.bytesLoaded / @sound.bytesTotal < position
     @sound.setPosition position * @sound.durationEstimate
+    @sound
 
+  # Move to a position relative to current position, in milliseconds
+  # 
+  # position - a integer..
+  #
+  # Examples
+  #
+  #   # For a track with a duration of 5000 milliseconds
+  #   player.sound.position # => 1000
+  #   player.setRelativePosition -500
+  #   player.sound.position # => 500
+
+  setRelativePosition: (position) ->
+    return unless @sound?
+
+    @sound.setPosition @sound.position + position
 
 
   # Toggle play/pause for the current sound or load a new `playable`.

@@ -39,18 +39,19 @@
     SoundManager2.prototype.release = function() {
       var _ref;
       if (this.sound) {
-        this.fadeout(this.sound);
+        this.fadeout();
       }
       this.sound = null;
       if (((_ref = this.playable) != null ? _ref.release : void 0) != null) {
         this.playable.release();
       }
       this.playable = null;
-      return this.trigger("released");
+      this.trigger("released");
+      return this;
     };
 
-    SoundManager2.prototype.fadeout = function(s) {
-      var fnc, vol,
+    SoundManager2.prototype.fadeout = function() {
+      var fnc, s, vol,
         _this = this;
       s = this.sound;
       vol = this.volume * 100;
@@ -63,7 +64,8 @@
           return s.destruct();
         }
       };
-      return fnc();
+      fnc();
+      return this;
     };
 
     SoundManager2.prototype.getState = function() {
@@ -151,7 +153,8 @@
         return;
       }
       this.volume = volume;
-      return this.sound.setVolume(Math.round(this.volume * 100));
+      this.sound.setVolume(Math.round(this.volume * 100));
+      return this.sound;
     };
 
     SoundManager2.prototype.setPosition = function(position) {
@@ -161,7 +164,15 @@
       if (this.sound.bytesLoaded / this.sound.bytesTotal < position) {
         return;
       }
-      return this.sound.setPosition(position * this.sound.durationEstimate);
+      this.sound.setPosition(position * this.sound.durationEstimate);
+      return this.sound;
+    };
+
+    SoundManager2.prototype.setRelativePosition = function(position) {
+      if (this.sound == null) {
+        return;
+      }
+      return this.sound.setPosition(this.sound.position + position);
     };
 
     SoundManager2.prototype.toggle = function(playable) {
