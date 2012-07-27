@@ -105,11 +105,11 @@
         return this.trigger("error", "Playable doesn't satisfy the contract.", playable);
       }
       this.release();
-      this.trigger("loading");
       this.playable = playable;
       if (this.playable.retain != null) {
         this.playable.retain();
       }
+      this.trigger("loading");
       return playable.getAudioURL(function(url) {
         _this.sound = soundManager.createSound({
           autoPlay: false,

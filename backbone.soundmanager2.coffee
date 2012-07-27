@@ -159,10 +159,10 @@ class Backbone.SoundManager2
 
     @release()
 
-    @trigger "loading"
-
     @playable = playable
     @playable.retain() if @playable.retain?
+
+    @trigger "loading"
 
     playable.getAudioURL (url) =>
 
