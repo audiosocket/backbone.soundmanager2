@@ -53,6 +53,8 @@ class Backbone.SoundManager2
 
     @sound = null
 
+    @trigger "releasing"
+
     @playable.release() if @playable?.release?
     @playable = null
 

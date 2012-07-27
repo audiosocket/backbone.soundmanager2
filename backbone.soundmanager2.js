@@ -42,6 +42,7 @@
         this.fadeout();
       }
       this.sound = null;
+      this.trigger("releasing");
       if (((_ref = this.playable) != null ? _ref.release : void 0) != null) {
         this.playable.release();
       }
