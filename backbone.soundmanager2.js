@@ -112,6 +112,9 @@
       }
       this.trigger("loading");
       return playable.getAudioURL(function(url) {
+        if (_this.playable !== playable) {
+          return;
+        }
         _this.sound = soundManager.createSound({
           autoPlay: false,
           id: playable.id,

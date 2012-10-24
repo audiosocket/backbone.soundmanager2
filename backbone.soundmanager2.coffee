@@ -167,6 +167,9 @@ class Backbone.SoundManager2
     @trigger "loading"
 
     playable.getAudioURL (url) =>
+      # It may happen that the playable has 
+      # changed while fetching url..
+      return unless @playable == playable
 
       @sound = soundManager.createSound
         autoPlay     : false # Trick: we want the "played" event
