@@ -1,7 +1,7 @@
 {
   "name": "backbone.soundmanager2",
   "description": "Wrapper to use SoundManager2 audio player with backbone models.",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "homepage": "http://github.com/audiosocket/backbone.soundmanager2",
   "author": "Audiosocket <tech@audiosocket.com>",
   "repository":

@@ -10,7 +10,8 @@ class Backbone.SoundManager2
 
   # Create a new Player instance. There will probably only ever be one
   # of these in the app. If `options.bus` is provided, rebroadcast all events
-  # to it with a `player:` prefix.
+  # to it with a `player:` prefix.  Can also accept an 'autoPlay' option if
+  # you want the sound to start playing automatically on load.
   #
   # Also rebroadcast messages on the playable, if possible.
   #
