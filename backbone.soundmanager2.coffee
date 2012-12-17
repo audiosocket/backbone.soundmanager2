@@ -9,16 +9,16 @@ class Backbone.SoundManager2
   _.extend this.prototype, Backbone.Events
 
   # Create a new Player instance. There will probably only ever be one
-  # of these in the app. If `@bus` is provided, rebroadcast all events
+  # of these in the app. If `options.bus` is provided, rebroadcast all events
   # to it with a `player:` prefix.
   #
   # Also rebroadcast messages on the playable, if possible.
-  # 
+  #
   # Examples
-  #   
+  #
   #   track = new Track()
   #   track.on "player:heyo", myFunction
-  # 
+  #
   #   player = new Player()
   #   player.playable = track
   #   player.trigger "heyo"
@@ -26,10 +26,12 @@ class Backbone.SoundManager2
   #
   # Returns self.
 
-  constructor: (@bus) ->
-    if @bus?
+  constructor: (options = {}) ->
+    @options = options
+
+    if @options.bus?
       @on "all", (event, args...) ->
-        @bus.trigger "player:#{event}", args...
+        @options.bus.trigger "player:#{event}", args...
 
     @on "all", (event, args...) ->
       return unless @playable?.trigger?
@@ -41,9 +43,9 @@ class Backbone.SoundManager2
 
   # Release the current sound, clear the current playable, and trigger
   # a `released` event.
-  # 
+  #
   # Examples
-  #   
+  #
   #   App.player.release() # => Playable is removed from player.
   #
   # Returns newly changed self.
@@ -65,7 +67,7 @@ class Backbone.SoundManager2
   # Fade out the current sound's volume to 0 and destroy it.
   #
   # Examples
-  #    
+  #
   #   player.fadeout() # => volume smoothly goes to zero.
   #
   # Returns self
@@ -88,13 +90,13 @@ class Backbone.SoundManager2
 
 
   # Determine if the state of the player is `paused`, or `playing`.
-  # 
+  #
   # Examples
-  #   
+  #
   #   player.toggle track
   #   player.getState() # => "playing"
   #
-  # Returns String indicating `paused` or `playing` state.  
+  # Returns String indicating `paused` or `playing` state.
   # Returns null if nothing is currently playing.
 
   getState: ->
@@ -108,9 +110,9 @@ class Backbone.SoundManager2
 
 
   # Determine if current playable is equal to playable passed in.
-  # 
+  #
   # Examples
-  #   
+  #
   #   player.load track
   #   player.isAlreadyPlaying track # => true
   #
@@ -124,11 +126,11 @@ class Backbone.SoundManager2
   # Test if a `playable` has getAudioURL() method.
   #
   # playable - A model that fulfills the contract of having getAudioURL()
-  # 
+  #
   # Examples
-  #   
+  #
   #   track = new Track();
-  #   track.isPlayable() # => true 
+  #   track.isPlayable() # => true
   #
   # Returns boolean.
 
@@ -136,15 +138,17 @@ class Backbone.SoundManager2
     playable.id? and playable.getAudioURL?
 
 
+  ok: ->
+    soundManager.ok()
 
   # Load a `playable` and create an SM2 sound instance (@sound) to represent it.
   # Triggers `loading` and `loaded` events.  Will also automatically play
   # it's `playable` model.
   #
   # playable - A model that fulfills the contract of having getAudioURL()
-  # 
+  #
   # Examples
-  #   
+  #
   #   track = new Track();
   #   player.load track
 
@@ -167,13 +171,13 @@ class Backbone.SoundManager2
     @trigger "loading"
 
     playable.getAudioURL (url) =>
-      # It may happen that the playable has 
+      # It may happen that the playable has
       # changed while fetching url..
       return unless @playable == playable
 
       @sound = soundManager.createSound
         autoPlay     : false # Trick: we want the "played" event
-                             # to be emitted after the "loaded" 
+                             # to be emitted after the "loaded"
                              # event, so we call `@sound.play()`
                              # manually below..
         id           : playable.id
@@ -187,20 +191,21 @@ class Backbone.SoundManager2
         whileplaying : => @trigger "playing",     @sound
         whileloading : => @trigger "bytesLoaded", @sound
 
-      @trigger "loaded"
-      @sound.play()
+      @trigger "loaded", @sound
+
+      @sound.play() if @options.autoPlay is true
 
   # Initial volume
-  
+
   volume: 1
-  
-  # Set sound to be a particular volume, accepts values 
+
+  # Set sound to be a particular volume, accepts values
   # between 0. and 1.
   #
   # volume - a float between 0 and 1.
-  # 
+  #
   # Examples
-  #   
+  #
   #   player.sound.volume # => 80
   #   player.setVolume 1
   #   player.sound.volume # => 100
@@ -221,9 +226,9 @@ class Backbone.SoundManager2
   # percentage, expressed as a number between 0 and 1.
   #
   # position - a float between 0 and 1.
-  # 
+  #
   # Examples
-  #   
+  #
   #   # for a track with a duration of 5000 milliseconds
   #   player.sound.position # => 1000
   #   player.setPosition 0.5
@@ -238,7 +243,7 @@ class Backbone.SoundManager2
     @sound
 
   # Move to a position relative to current position, in milliseconds
-  # 
+  #
   # position - a integer..
   #
   # Examples
@@ -257,9 +262,9 @@ class Backbone.SoundManager2
   # Toggle play/pause for the current sound or load a new `playable`.
   #
   # playable - A model that fulfills the contract of having getAudioURL()
-  # 
+  #
   # Examples
-  #   
+  #
   #   player.toggle track # => track will load and start playing
 
   toggle: (playable = @playable) ->
@@ -271,9 +276,9 @@ class Backbone.SoundManager2
 
 
   # Stop for the current sound.
-  # 
+  #
   # Examples
-  #   
+  #
   #   player.stop() # => track will stop completely
 
   stop: ->
