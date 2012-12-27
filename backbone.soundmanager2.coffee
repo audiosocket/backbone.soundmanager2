@@ -52,7 +52,9 @@ class Backbone.SoundManager2
   # Returns newly changed self.
 
   release: ->
-    @fadeout() if @sound
+    if @sound
+      @fadeout =>
+        @sound.destruct()
 
     @sound = null
 
@@ -65,7 +67,7 @@ class Backbone.SoundManager2
 
     this
 
-  # Fade out the current sound's volume to 0 and destroy it.
+  # Fade out the current sound's volume to 0 and run any callbacks.
   #
   # Examples
   #
@@ -73,7 +75,16 @@ class Backbone.SoundManager2
   #
   # Returns self
 
-  fadeout: ->
+  fadeout: (callback) ->
+
+    # Fade out started causing issues when the track sharing went in.
+    # Removing this ability for now until we can circle back.
+
+    callback()
+    return this
+
+    # Original fade out. Can't get here now.
+
     s = @sound
     vol = @volume * 100
 
@@ -83,7 +94,7 @@ class Backbone.SoundManager2
       if vol > 0
         _.delay fnc, 10
       else
-        s.destruct()
+        callback()
 
     fnc()
 
@@ -110,19 +121,6 @@ class Backbone.SoundManager2
     if @sound.paused then "paused" else "playing"
 
 
-  # Determine if a sound has already been already loaded.
-  #
-  # Examples
-  #
-  #   player.load track
-  #   player.hasSoundLoaded() # => true
-  #
-  # Returns boolean.
-
-  hasSoundLoaded: ->
-    @sound?
-
-
   # Determine if current playable is equal to playable passed in.
   #
   # Examples
@@ -135,6 +133,18 @@ class Backbone.SoundManager2
   isAlreadyPlaying: (playable) ->
     @playable? and @playable.id == playable.id
 
+
+  # Determine if a sound has already been already loaded.
+  #
+  # Examples
+  #
+  #   player.load track
+  #   player.hasSoundLoaded() # => true
+  #
+  # Returns boolean.
+
+  hasSoundLoaded: ->
+    @sound?
 
 
   # Test if a `playable` has getAudioURL() method.
@@ -289,7 +299,7 @@ class Backbone.SoundManager2
       @load playable
 
 
-  # Stop the current sound.
+  # Stop for the current sound.
   #
   # Examples
   #
@@ -298,12 +308,6 @@ class Backbone.SoundManager2
   stop: ->
     return unless @sound?
     @sound.stop()
-
-  # Pause the current sound.
-  #
-  # Examples
-  #
-  #   player.pause() # => track will pause
 
   pause: ->
     return unless @sound
