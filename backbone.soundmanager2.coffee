@@ -110,6 +110,19 @@ class Backbone.SoundManager2
     if @sound.paused then "paused" else "playing"
 
 
+  # Determine if a sound has already been already loaded.
+  #
+  # Examples
+  #
+  #   player.load track
+  #   player.hasSoundLoaded() # => true
+  #
+  # Returns boolean.
+
+  hasSoundLoaded: ->
+    @sound?
+
+
   # Determine if current playable is equal to playable passed in.
   #
   # Examples

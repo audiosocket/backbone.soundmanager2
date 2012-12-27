@@ -87,6 +87,10 @@
       }
     };
 
+    SoundManager2.prototype.hasSoundLoaded = function() {
+      return this.sound != null;
+    };
+
     SoundManager2.prototype.isAlreadyPlaying = function(playable) {
       return (this.playable != null) && this.playable.id === playable.id;
     };
@@ -203,6 +207,17 @@
         return;
       }
       return this.sound.stop();
+    };
+
+    SoundManager2.prototype.pause = function() {
+      var _this = this;
+      if (!this.sound) {
+        return;
+      }
+      return this.fadeout(function() {
+        _this.sound.pause();
+        return _this.sound.setVolume(100);
+      });
     };
 
     return SoundManager2;
