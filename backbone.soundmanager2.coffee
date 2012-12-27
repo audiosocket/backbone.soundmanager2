@@ -276,7 +276,7 @@ class Backbone.SoundManager2
       @load playable
 
 
-  # Stop for the current sound.
+  # Stop the current sound.
   #
   # Examples
   #
@@ -285,3 +285,15 @@ class Backbone.SoundManager2
   stop: ->
     return unless @sound?
     @sound.stop()
+
+  # Pause the current sound.
+  #
+  # Examples
+  #
+  #   player.pause() # => track will pause
+
+  pause: ->
+    return unless @sound
+    @fadeout =>
+      @sound.pause()
+      @sound.setVolume 100
