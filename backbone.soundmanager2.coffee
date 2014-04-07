@@ -40,7 +40,7 @@ class BackboneSoundManager2
 
       @playable.trigger "player:#{event}", args...
   
-    return this
+    this
 
 
   # Release the current sound, clear the current playable, and trigger
@@ -66,7 +66,7 @@ class BackboneSoundManager2
 
     @trigger "released"
 
-    return this
+    this
 
   # Fade out the current sound's volume to 0 and run any callbacks.
   #
@@ -82,7 +82,7 @@ class BackboneSoundManager2
     # Removing this ability for now until we can circle back.
 
     callback()
-    return this
+    this
 
     # Original fade out. Can't get here now.
 
@@ -99,7 +99,7 @@ class BackboneSoundManager2
 
     fnc()
 
-    return this
+    this
 
 
   # Determine if the state of the player is `paused`, or `playing`.
