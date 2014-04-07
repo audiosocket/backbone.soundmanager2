@@ -31,6 +31,7 @@
         }
         return (_ref1 = this.playable).trigger.apply(_ref1, ["player:" + event].concat(__slice.call(args)));
       });
+      return this;
     }
 
     BackboneSoundManager2.prototype.release = function() {

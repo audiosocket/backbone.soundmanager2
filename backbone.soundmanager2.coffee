@@ -6,6 +6,7 @@ else
 # A player model for use with SoundManager2 API.  Requires soundmanager2 (duh).
 
 class BackboneSoundManager2
+
   # Create a new Player instance. There will probably only ever be one
   # of these in the app. If `options.bus` is provided, rebroadcast all events
   # to it with a `player:` prefix.  Can also accept an 'autoPlay' option if
@@ -24,7 +25,6 @@ class BackboneSoundManager2
   #    # => Will execute track.myFunction()
   #
   # Returns self.
-
   constructor: (options = {}) ->
     @options = options
 
@@ -38,6 +38,8 @@ class BackboneSoundManager2
       return unless @playable?.trigger?
 
       @playable.trigger "player:#{event}", args...
+  
+    return this
 
 
   # Release the current sound, clear the current playable, and trigger
@@ -63,7 +65,7 @@ class BackboneSoundManager2
 
     @trigger "released"
 
-    this
+    return this
 
   # Fade out the current sound's volume to 0 and run any callbacks.
   #
@@ -96,7 +98,7 @@ class BackboneSoundManager2
 
     fnc()
 
-    this
+    return this
 
 
   # Determine if the state of the player is `paused`, or `playing`.
