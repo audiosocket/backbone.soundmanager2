@@ -32,7 +32,7 @@
         }
         return (_ref1 = this.playable).trigger.apply(_ref1, ["player:" + event].concat(__slice.call(args)));
       });
-      return this;
+      this;
     }
 
     BackboneSoundManager2.prototype.release = function() {
@@ -57,7 +57,7 @@
     BackboneSoundManager2.prototype.fadeout = function(callback) {
       var fnc, s, vol;
       callback();
-      return this;
+      this;
       s = this.sound;
       vol = this.volume * 100;
       fnc = (function(_this) {
