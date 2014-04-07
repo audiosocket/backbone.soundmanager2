@@ -5,9 +5,7 @@ else
 
 # A player model for use with SoundManager2 API.  Requires soundmanager2 (duh).
 
-class Backbone.SoundManager2
-  _.extend this.prototype, Backbone.Events
-
+class BackboneSoundManager2
   # Create a new Player instance. There will probably only ever be one
   # of these in the app. If `options.bus` is provided, rebroadcast all events
   # to it with a `player:` prefix.  Can also accept an 'autoPlay' option if
@@ -30,6 +28,8 @@ class Backbone.SoundManager2
   constructor: (options = {}) ->
     @options = options
 
+    _.extend this, Backbone.Events
+
     if @options.bus?
       @on "all", (event, args...) ->
         @options.bus.trigger "player:#{event}", args...
@@ -38,8 +38,6 @@ class Backbone.SoundManager2
       return unless @playable?.trigger?
 
       @playable.trigger "player:#{event}", args...
-
-    this
 
 
   # Release the current sound, clear the current playable, and trigger
@@ -314,3 +312,11 @@ class Backbone.SoundManager2
     @fadeout =>
       @sound.pause()
       @sound.setVolume 100
+
+# If we are in Node environment — export our constructor function in a module,
+# else — add it to Backbone object as a property
+# 
+if module? and module.exports?
+  module.exports = BackboneSoundManager2
+else
+  Backbone.SoundManager2 = BackboneSoundManager2
