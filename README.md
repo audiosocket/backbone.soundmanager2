@@ -7,7 +7,7 @@ that helps including and using it within a [Backbone](http://backbonejs.org/) ap
 How to use?
 -----------
 
-You should first initialize a single `Backbone.SoundManager2` player object, for instance as a global `App.player`:
+You should initialize a single `Backbone.SoundManager2` player object, for instance as a global `App.player`:
 
     App.player = new Backbone.SoundManager2
     
@@ -87,3 +87,15 @@ Using
 
 Just include `backbone.soundmanager2.js` after including `backbone.js` and `soundManager2` and before 
 any code that makes use of it and you're ready to go!
+
+If you want to use it as a [browserify](http://browserify.org/) module, simply include it in your `package.json`
+
+    "dependencies": {
+      "backbone.soundmanager2": "git://github.com/audiosocket/backbone.soundmanager2.git"
+    }
+
+Then, after doing `npm install`, you'll be able to require it in your app. For example:
+
+    var Backbone.SoundManager2 = require('backbone.soundmanager2');
+    
+
