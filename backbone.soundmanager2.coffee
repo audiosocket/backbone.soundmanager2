@@ -7,6 +7,8 @@ else
 
 class BackboneSoundManager2
 
+  _.extend this.prototype, Backbone.Events
+
   # Create a new Player instance. There will probably only ever be one
   # of these in the app. If `options.bus` is provided, rebroadcast all events
   # to it with a `player:` prefix.  Can also accept an 'autoPlay' option if
@@ -25,10 +27,9 @@ class BackboneSoundManager2
   #    # => Will execute track.myFunction()
   #
   # Returns self.
+
   constructor: (options = {}) ->
     @options = options
-
-    _.extend this, Backbone.Events
 
     if @options.bus?
       @on "all", (event, args...) ->
@@ -317,7 +318,7 @@ class BackboneSoundManager2
 
 # If we are in Node environment — export our constructor function in a module,
 # else — add it to Backbone object as a property
-# 
+
 if module? and module.exports?
   module.exports = BackboneSoundManager2
 else

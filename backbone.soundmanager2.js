@@ -10,12 +10,13 @@
   }
 
   BackboneSoundManager2 = (function() {
+    _.extend(BackboneSoundManager2.prototype, Backbone.Events);
+
     function BackboneSoundManager2(options) {
       if (options == null) {
         options = {};
       }
       this.options = options;
-      _.extend(this, Backbone.Events);
       if (this.options.bus != null) {
         this.on("all", function() {
           var args, event, _ref;
