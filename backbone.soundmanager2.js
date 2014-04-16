@@ -57,7 +57,7 @@
     BackboneSoundManager2.prototype.fadeout = function(callback) {
       var fnc, s, vol;
       callback();
-      this;
+      return this;
       s = this.sound;
       vol = this.volume * 100;
       fnc = (function(_this) {
