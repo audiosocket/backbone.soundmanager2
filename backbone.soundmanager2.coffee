@@ -82,7 +82,7 @@ class BackboneSoundManager2
     # Removing this ability for now until we can circle back.
 
     callback()
-    this
+    return this
 
     # Original fade out. Can't get here now.
 
